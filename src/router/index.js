@@ -9,6 +9,9 @@ import ImageList from '@/pages/ImageList'
 import Charts from '@/pages/Charts'
 import Login from '@/pages/Login'
 import LockScreen from '@/pages/LockScreen'
+import DataDemo from '@/pages/DataDemo'
+import TagDemo from '@/pages/TagDemo'
+import MapDemo from '@/pages/MapDemo'
 
 Vue.use(Router)
 
@@ -47,6 +50,21 @@ export default new Router({
           path: 'charts',
           name: 'Charts',
           component: Charts
+        },
+        {
+          path: 'datademo',
+          name: 'DataDemo',
+          component: DataDemo
+        },
+        {
+          path: 'tagdemo',
+          name: 'TagDemo',
+          component: TagDemo
+        },
+        {
+          path: 'mapdemo',
+          name: 'MapDemo',
+          component: MapDemo
         }
       ]
     },

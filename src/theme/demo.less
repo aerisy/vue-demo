@@ -13,20 +13,23 @@ img{
   margin-top: 15px;
 }
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: 'Avenir', Helvetica, Arial, Microsoft YaHei, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+  //text-align: center;
   .header{
     z-index: 999;
     width: 100%;
     height: @nav-height;
     top: 0;
-    position: fixed;
-    padding: 10px;
-    background: white;
+    //吊顶 position: fixed;
+    padding: 0 10px 10px 10px;
+    background: white;//@primary-color ;
+    ul{
+      z-index: 999;
+    }
     .logo{
-      color: @link-color;
+      //color: white;//@link-color;
       font-size: 20px;
       font-weight: bold;
       span{
@@ -35,6 +38,9 @@ img{
       img{
         vertical-align: middle;
       }
+    }
+    a:hover{
+      color: @primary-color;
     }
     .login-info{
       position: absolute;
@@ -53,7 +59,7 @@ img{
         }
       }
     }
-    
+
   }
   .sidebar{
     height: 100%;
@@ -79,8 +85,8 @@ img{
   }
   .main-content{
     position: relative;
-    margin-left: @sidebar-width;
-    padding: 60px 15px 15px 15px;
+    //margin-left: @sidebar-width;
+    padding: 15px 100px 15px 100px;
   }
 }
 

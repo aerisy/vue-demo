@@ -27,7 +27,7 @@ module.exports = {
   },
   module: {
     rules: [
-      {
+      /*{
         test: /\.(js|vue)$/,
         loader: 'eslint-loader',
         enforce: 'pre',
@@ -35,7 +35,7 @@ module.exports = {
         options: {
           formatter: require('eslint-friendly-formatter')
         }
-      },
+      },*/
       {
         test: /\.vue$/,
         loader: 'vue-loader',
@@ -49,11 +49,11 @@ module.exports = {
       {
         test: /\.less$/,
         use: [{
-            loader: "style-loader" // creates style nodes from JS strings 
+            loader: "style-loader" // creates style nodes from JS strings
         }, {
-            loader: "css-loader" // translates CSS into CommonJS 
+            loader: "css-loader" // translates CSS into CommonJS
         }, {
-            loader: "less-loader" // compiles Less to CSS 
+            loader: "less-loader" // compiles Less to CSS
         }]
       },
       {

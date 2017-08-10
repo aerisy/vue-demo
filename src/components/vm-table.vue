@@ -5,7 +5,7 @@
     </div>
     <div class="panel-body">
       <Row type="flex" justify="space-between" class="control">
-        <div class="table-style">
+        <!--<div class="table-style">
           <h3>Stripe</h3>
           <i-switch v-model="showStripe" style="margin: 0 30px 0 10px"></i-switch>
           <h3>Size</h3>
@@ -14,58 +14,102 @@
             <Radio label="default">Default</Radio>
             <Radio label="small">Small</Radio>
           </Radio-group>
-        </div>
+        </div>-->
         <div class="search-bar">
-          <Input placeholder="Please enter ..." v-model="keyword" style="width: 300px"></Input>
-          <Button type="ghost" @click="search"><i class="fa fa-search"></i></Button>
+          <Form :label-width="80" inline>
+            <Form-item label="姓名：">
+              <Input placeholder="请输入姓名" v-model="keyword" style="width: 100px" size="small"></Input>
+            </Form-item>
+            <Form-item label="单位：">
+              <Input placeholder="请输入单位名称" v-model="depart" style="width: 100px" size="small"></Input>
+            </Form-item>
+            <Form-item label="角色：">
+              <Select v-model="model1" style="width:100px" size="small">
+                <Option v-for="opt in rolelist" :value="opt" :key="opt">{{ opt }}</Option>
+              </Select>
+            </Form-item>
+            <Form-item label="创建日期：">
+              <Date-picker :value="date_value" format="yyyy-MM-dd" type="daterange" placeholder="选择时间范围" :options="dateBanOpt"
+                           style="width: 200px" size="small"></Date-picker>
+            </Form-item>
+            <Form-item label-width="10">
+              <Button type="primary" @click="search" icon="" shape="" size="small">查询
+              </Button>
+              <Poptip v-model="visible" trigger="hover" placement="bottom">
+                <Button size="small">CLICK</Button>
+                <div slot="content">
+                  <Button type="info" icon="person" size="small" shape="circle">张三</Button>
+                  <Button type="info" icon="person" size="small" shape="circle">李四</Button>
+                  <Button type="info" icon="person" size="small" shape="circle">王五</Button>
+                  <Button type="info" icon="person" size="small" shape="circle">李丽虎</Button>
+                  <Button type="info" icon="person" size="small" shape="circle">刘万金</Button>
+                  <Button type="info" icon="person" size="small" shape="circle">姜国达</Button>
+                  <Button type="info" icon="person" size="small" shape="circle">郭发林</Button>
+                  <Button type="info" icon="person" size="small" shape="circle">杨德碧</Button>
+                </div>
+              </Poptip>
+            </Form-item>
+          </Form>
         </div>
       </Row>
       <div class="edit" v-if="type === 'edit'">
-          <Button @click="modalAdd = true" ><i class="fa fa-plus"></i> Add</Button>
-          <Button  :disabled="deleteDisabled" @click="modalDelete = true"><i class="fa fa-trash"></i> Delete</Button>
+        <Button @click="modalAdd = true" type="primary" size="small">
+          <Icon type="add"></Icon>
+          新增
+        </Button>
+        <Button :disabled="deleteDisabled" @click="modalDelete = true" type="error" size="small">
+          <Icon type="delete"></Icon>
+          删除
+        </Button>
+        <Button @click="msgTest" size="small">ajax测试</Button>
       </div>
-      <Table :stripe="showStripe" :size="tableSize" :columns="showColumns" :data="dataShow" @on-selection-change="selectChange"></Table>
+      <Table :stripe="showStripe" :size="tableSize" :columns="showColumns" :data="dataShow"
+             @on-selection-change="selectChange"></Table>
       <Row type="flex" justify="space-between" class="footer">
-        <div class="info-bar">
-          Show<Input-number class="input-number" v-model="showNum" :max="data.length" :min="1" @on-change=" updateDataShow ">{{ showNum }}</Input-number>/ Page
-        </div>
+        <!--<div class="info-bar">-->
+          <!--每页显示-->
+          <!--<Input-number class="input-number" v-model="showNum" :max="data.length" :min="1"-->
+                        <!--@on-change=" updateDataShow ">{{ showNum }}-->
+          <!--</Input-number>-->
+          <!--条-->
+        <!--</div>-->
         <div class="page">
-          <span class="total">Total {{ data.length }}</span>
-          <Page :total="data.length" :current="currentPage" :page-size="showNum" @on-change="pageChange"></Page>
+          <!--<span class="total">总条数： {{ data.length }}</span>-->
+          <Page :total="data.length" :current="currentPage" :page-size="showNum" @on-change="pageChange" @on-page-size-change="updateDataShow" size="small" show-elevator show-sizer></Page>
         </div>
       </Row>
     </div>
     <Modal
-        v-model="modalEdit"
-        title="Edit"
-        ok-text="OK"
-        cancel-text="Cancel"
-        v-on:on-ok="editOk">
-        <Form :label-width="50">
-          <Form-item v-for="(value, key) in dataEdit" :label="convertKey(key)" :key="dataEdit.id">
-            <Input v-model="dataEdit[key]" :placeholder="'Please enter' + key"></Input>
-          </Form-item>
-        </Form>
+      v-model="modalEdit"
+      title="Edit"
+      ok-text="OK"
+      cancel-text="Cancel"
+      v-on:on-ok="editOk">
+      <Form :label-width="50">
+        <Form-item v-for="(value, key) in dataEdit" :label="convertKey(key)" :key="dataEdit.id">
+          <Input v-model="dataEdit[key]" :placeholder="'Please enter' + key"></Input>
+        </Form-item>
+      </Form>
     </Modal>
     <Modal
-        v-model="modalAdd"
-        title="Add"
-        ok-text="OK"
-        cancel-text="Cancel"
-        v-on:on-ok="addOk">
-        <Form :label-width="50">
-          <Form-item v-for="item in columns" :label="item.title" :key="item.id">
-            <Input v-model="dataAdd[item.key]" :placeholder="'Please enter' + item.title"></Input>
-          </Form-item>
-        </Form>
+      v-model="modalAdd"
+      title="新增"
+      ok-text="确认"
+      cancel-text="取消"
+      v-on:on-ok="addOk">
+      <Form :label-width="100">
+        <Form-item v-for="item in columns" :label="item.title" :key="item.id">
+          <Input v-model="dataAdd[item.key]" :placeholder="'Please enter' + item.title"></Input>
+        </Form-item>
+      </Form>
     </Modal>
     <Modal
-        v-model="modalDelete"
-        title="Delete"
-        ok-text="OK"
-        cancel-text="Cancel"
-        v-on:on-ok="deleteOk">
-        Are you sure to delete this data?
+      v-model="modalDelete"
+      title="删除信息"
+      ok-text="确认"
+      cancel-text="取消"
+      v-on:on-ok="deleteOk">
+      确定要删除该条数据?
     </Modal>
   </Row>
 </template>
@@ -87,8 +131,8 @@
         deleteDisabled: true,
         dataShow: [],
         showNum: 10,
-        showStripe: false,
-        tableSize: 'default',
+        showStripe: true,
+        tableSize: 'small',
         currentPage: 1,
         keyword: '',
         modalEdit: false,
@@ -97,7 +141,13 @@
         dataEdit: {},
         dataDelete: [],
         dataAdd: {},
-        formData: []
+        formData: [],
+        rolelist: ['所有', '分局主管', '市局主管', '分局联络员', '系统管理员'],
+        dateBanOpt: {
+          disabledDate (date) {
+            return date && date.valueOf() < (Date.now() - 86400000 * 180)
+          }
+        }
       }
     },
     methods: {
@@ -114,9 +164,12 @@
         this.currentPage = page
         this.updateDataShow()
       },
-      updateDataShow: function () {
+      updateDataShow: function (pageSize) {
+        this.showNum = pageSize
         let startPage = (this.currentPage - 1) * this.showNum
         let endPage = startPage + this.showNum
+        console.log(startPage)
+        console.log(endPage)
         this.dataShow = this.data.slice(startPage, endPage)
       },
       search: function () {
@@ -157,7 +210,7 @@
                 this.modalEdit = true
               }
             }
-          }, 'Edit'),
+          }, '修改'),
           h('Button', {
             props: {
               type: 'error',
@@ -169,7 +222,7 @@
                 this.modalDelete = true
               }
             }
-          }, 'Delete')
+          }, '删除')
         ])
       },
       convertKey: function (value) {
@@ -182,6 +235,17 @@
           }
         })
         return returnValue
+      },
+      // test Function
+      msgTest: function () {
+        let _this = this
+        _this.$http.request({
+          method: 'get',
+          url: '/hi/message',
+          success: function (data) {
+            _this.$Message.success('COUNT:  ' + data.message)
+          }
+        })
       }
     },
     computed: {
