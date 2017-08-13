@@ -70,9 +70,19 @@
               LeafletMap
             </router-link>
           </Menu-item>
+          <Menu-item name="MapDemo2">
+            <router-link to="/mapdemo2">
+              LeafletMap2
+            </router-link>
+          </Menu-item>
           <Menu-item name="TagDemo">
             <router-link to="/tagdemo">
               TagDemo
+            </router-link>
+          </Menu-item>
+          <Menu-item name="TreeDemo">
+            <router-link to="/treedemo">
+              TreeDemo
             </router-link>
           </Menu-item>
         </Submenu>

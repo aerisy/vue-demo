@@ -12,6 +12,8 @@ import LockScreen from '@/pages/LockScreen'
 import DataDemo from '@/pages/DataDemo'
 import TagDemo from '@/pages/TagDemo'
 import MapDemo from '@/pages/MapDemo'
+import MapDemo2 from '@/pages/MapDemo2'
+import TreeDemo from '@/pages/TreeDemo'
 
 Vue.use(Router)
 
@@ -65,6 +67,16 @@ export default new Router({
           path: 'mapdemo',
           name: 'MapDemo',
           component: MapDemo
+        },
+        {
+          path: 'mapdemo2',
+          name: 'MapDemo2',
+          component: MapDemo2
+        },
+        {
+          path: 'treedemo',
+          name: 'TreeDemo',
+          component: TreeDemo
         }
       ]
     },
